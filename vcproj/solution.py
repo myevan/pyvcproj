@@ -7,7 +7,7 @@ __all__ = ['Solution', 'parse']
 class SolutionFileError(Exception):
     pass
 
-_REGEX_PROJECT_FILE = re.compile(r"""\s*Project\("(\{[A-Za-z0-9-]+\})"\) = "(\w+)", "((?:(?:\w+)\\)*(?:\w+)\.vcxproj)", \"({[A-Za-z0-9-]+})\"""")
+_REGEX_PROJECT_FILE = re.compile(r"""\s*Project\("(\{[A-Za-z0-9-]+\})"\) = "([\w\.]+)", "((?:(?:[\w\.]+)\\)*(?:[\w\.]+)\.vcx.+)", \"({[A-Za-z0-9-]+})\"""")
 _REGEX_END_PROJECT = re.compile(r"""\s*EndProject""")
 _REGEX_PROJECT_DEPENDENCIES_SECTION = re.compile(r"""\s*ProjectSection\((\w+)\) = postProject""")
 _REGEX_END_PROJECT_SECTION = re.compile(r"""\s*EndProjectSection""")
