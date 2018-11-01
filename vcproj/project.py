@@ -50,6 +50,25 @@ class Project(object):
         """List source files in project."""
         return [c.attrib['Include'] for c in self.xml.findall(".//{" + _MS_BUILD_NAMESPACE + "}ClCompile") if 'Include' in c.attrib]
 
+    def source_files_for_building(self):
+        """List source files in project."""
+
+        def gen_paths():
+            for node in self.xml.findall(".//{" + _MS_BUILD_NAMESPACE + "}ClCompile"):
+                path = node.attrib.get('Include')
+                if path:
+                    if len(node) == 0:
+                        yield path
+                    else:
+                        for child in node.iter("{" + _MS_BUILD_NAMESPACE + '}ExcludedFromBuild'):
+                            if child.text == 'true':
+                                break
+                        else:
+                            yield path
+                            
+
+        return list(gen_paths())
+
     def include_files(self):
         """List include files in project."""
         return [c.attrib['Include'] for c in self.xml.findall(".//{" + _MS_BUILD_NAMESPACE + "}ClInclude") if 'Include' in c.attrib]
